@@ -1,17 +1,23 @@
 import React, { Component } from 'react';
 import './App.css';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 let todoId = 0
 
 class App extends Component {
   constructor (props) {
       super(props)
+
+      this.toggle = this.toggle.bind(this);
+
       this.state = {
           todoItems: [],
           todoInput: '',
-          retrieveInput: ''
-          // todo 아이템이 들어갈 배열 선언
+          retrieveInput: '',
+          category: 'TODAY',
+          dropdownOpen: false
       }
+
       this._handleOnClickAddItem = this._handleOnClickAddItem.bind(this)
       this._handleOnChangeTodoInput = this._handleOnChangeTodoInput.bind(this)
       this._handleOnClickRemove = this._handleOnClickRemove.bind(this)
@@ -20,6 +26,12 @@ class App extends Component {
       this._handleOnChangeInputRetrieve = this._handleOnChangeInputRetrieve.bind(this)
       this._handleOnChangeRetrieveTodo = this._handleOnChangeRetrieveTodo.bind(this)
   }
+    toggle() {
+        this.setState(prevState => ({
+            dropdownOpen: !prevState.dropdownOpen
+        }));
+    }
+
     _handleOnClickAddItem () {
       const {todoItems, todoInput} = this.state
       if (todoInput.length === 0) return alert('뭐함')
@@ -80,6 +92,25 @@ class App extends Component {
     return (
       <div className="container" style={{ maxWidth: 600, padding: '20px, 0' }}>
         <div className='row' style={{padding: '3rem 1.5rem'}}>
+
+
+            <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+                <DropdownToggle caret>
+                    할 일 카테고리
+                </DropdownToggle>
+                <DropdownMenu>
+                    <DropdownItem header>Header</DropdownItem>
+                    {/*<DropdownItem disabled>Action</DropdownItem>*/}
+                    <DropdownItem>업무</DropdownItem>
+                    <DropdownItem>운동</DropdownItem>
+                    <DropdownItem>교우</DropdownItem>
+                    <DropdownItem divider />
+                    <DropdownItem>Another Action</DropdownItem>
+                </DropdownMenu>
+            </Dropdown>
+
+
+
             <div className='col text-center'>
                 <div className='input-group'>
                     <input type="text"
@@ -140,6 +171,12 @@ class App extends Component {
                                 {renderCancelButton(item)}
                             </div>
                         )}
+                    </div>
+
+                    <div className="col-6">
+                        <button>업무</button>
+                        <button>운동</button>
+                        <button>교우</button>
                     </div>
                 </div>
 
