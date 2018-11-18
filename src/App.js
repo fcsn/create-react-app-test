@@ -14,7 +14,7 @@ class App extends Component {
           todoItems: [],
           todoInput: '',
           retrieveInput: '',
-          category: 'TODAY',
+          category: '업무',
           dropdownOpen: false
       }
 
@@ -22,6 +22,9 @@ class App extends Component {
       this._handleOnChangeTodoInput = this._handleOnChangeTodoInput.bind(this)
       this._handleOnClickRemove = this._handleOnClickRemove.bind(this)
       this._handleOnClickToggleState = this._handleOnClickToggleState.bind(this)
+
+      this._handleOnClickChangeCategory = this._handleOnClickChangeCategory.bind(this)
+      this._handleOnClickFilterTodoItems = this._handleOnClickFilterTodoItems.bind(this)
 
       this._handleOnChangeInputRetrieve = this._handleOnChangeInputRetrieve.bind(this)
       this._handleOnChangeRetrieveTodo = this._handleOnChangeRetrieveTodo.bind(this)
@@ -33,12 +36,13 @@ class App extends Component {
     }
 
     _handleOnClickAddItem () {
-      const {todoItems, todoInput} = this.state
+      const {todoItems, todoInput, category} = this.state
       if (todoInput.length === 0) return alert('뭐함')
       const todoItem = {
         id: todoId++,
         title: todoInput,
-        isCompleted: false
+        isCompleted: false,
+        category: category
       }
       // const newTodoItems = todoItems.slice(0)
       // ??
@@ -81,6 +85,19 @@ class App extends Component {
        console.log(searchedTodoItems)
     }
 
+    _handleOnClickFilterTodoItems (categ) {
+        const {todoItems} = this.state
+        const filteredTodoItems = todoItems.filter(item => item.category === categ)
+        this.setState({todoItems: filteredTodoItems})
+    }
+
+    _handleOnClickChangeCategory (categ) {
+        const {category} = this.state
+        if (category !== categ) {
+            this.setState({category: categ})
+        }
+    }
+
   render() {
     const renderCancelButton = item => (
         <button className='btn btn-danger btn-sm'
@@ -96,16 +113,16 @@ class App extends Component {
 
             <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                 <DropdownToggle caret>
-                    할 일 카테고리
+                    {this.state.category}
                 </DropdownToggle>
                 <DropdownMenu>
-                    <DropdownItem header>Header</DropdownItem>
-                    {/*<DropdownItem disabled>Action</DropdownItem>*/}
-                    <DropdownItem>업무</DropdownItem>
-                    <DropdownItem>운동</DropdownItem>
-                    <DropdownItem>교우</DropdownItem>
-                    <DropdownItem divider />
-                    <DropdownItem>Another Action</DropdownItem>
+                    {/*<DropdownItem header>Header</DropdownItem>*/}
+                    <DropdownItem disabled>할 일 카테고리</DropdownItem>
+                    <DropdownItem onClick={() => this._handleOnClickChangeCategory('업무')}>업무</DropdownItem>
+                    <DropdownItem onClick={() => this._handleOnClickChangeCategory('운동')}>운동</DropdownItem>
+                    <DropdownItem onClick={() => this._handleOnClickChangeCategory('교우')}>교우</DropdownItem>
+                    {/*<DropdownItem divider />*/}
+                    {/*<DropdownItem>Another Action</DropdownItem>*/}
                 </DropdownMenu>
             </Dropdown>
 
@@ -146,6 +163,7 @@ class App extends Component {
                         {
                             this.state.todoItems.filter(item => !item.isCompleted).map(item =>
                                 <div key={item.id} style={{ margin: 10 }}>
+                                    <span>{item.category}/</span>
                                     <span style={{ marginRight: 5 }}>{item.id + 1}. {item.title}</span>
                                     <button
                                         className='btn btn-success btn-sm'
@@ -174,9 +192,10 @@ class App extends Component {
                     </div>
 
                     <div className="col-6">
-                        <button>업무</button>
-                        <button>운동</button>
-                        <button>교우</button>
+                        <button onClick={() => this._handleOnClickFilterTodoItems('업무')}>전부</button>
+                        <button onClick={() => this._handleOnClickFilterTodoItems('업무')}>업무</button>
+                        <button onClick={() => this._handleOnClickFilterTodoItems('운동')}>운동</button>
+                        <button onClick={() => this._handleOnClickFilterTodoItems('교우')}>교우</button>
                     </div>
                 </div>
 
