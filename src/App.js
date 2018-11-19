@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
+// import './src/components/TodoTable/TodoTable'
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import TodoTable from "../src/components/TodoTable/TodoTable";
 
 let todoId = 0
 
@@ -98,14 +100,14 @@ class App extends Component {
         }
     }
 
-  render() {
-    const renderCancelButton = item => (
-        <button className='btn btn-danger btn-sm'
-                style={{marginLeft: 5}}
-                onClick={() => this._handleOnClickRemove(item.id)}>
-            삭제
-        </button>
-    )
+  render () {
+    // const renderCancelButton = item => (
+    //     <button className='btn btn-danger btn-sm'
+    //             style={{marginLeft: 5}}
+    //             onClick={() => this._handleOnClickRemove(item.id)}>
+    //         삭제
+    //     </button>
+    // )
     return (
       <div className="container" style={{ maxWidth: 600, padding: '20px, 0' }}>
         <div className='row' style={{padding: '3rem 1.5rem'}}>
@@ -129,6 +131,10 @@ class App extends Component {
 
 
             <div className='col text-center'>
+                <TodoTable todoItems={ this.state.todoItems }
+                           _handleOnClickToggleState={ this._handleOnClickToggleState}
+                           _handleOnClickRemove={ this._handleOnClickRemove}
+                           _handleOnClickFilterTodoItems={ this._handleOnClickFilterTodoItems}/>
                 <div className='input-group'>
                     <input type="text"
                            className='form-control'
@@ -157,51 +163,50 @@ class App extends Component {
                     </div>
                 </div>
 
-                <div className='row' style={ { marginTop: 20 } }>
-                    <div className='col-6'>
-                        <h3>해야할 일</h3>
-                        {
-                            this.state.todoItems.filter(item => !item.isCompleted).map(item =>
-                                <div key={item.id} style={{ margin: 10 }}>
-                                    <span>{item.category}/</span>
-                                    <span style={{ marginRight: 5 }}>{item.id + 1}. {item.title}</span>
-                                    <button
-                                        className='btn btn-success btn-sm'
-                                        onClick={() => this._handleOnClickToggleState(item.id)}
-                                    >
-                                        완료
-                                    </button>
-                                    {renderCancelButton(item)}
-                                </div>
-                            )
-                        }
-                    </div>
+                {/*<div className='row' style={ { marginTop: 20 } }>*/}
+                    {/*<div className='col-6'>*/}
+                        {/*<h3>해야할 일</h3>*/}
+                        {/*{*/}
+                            {/*this.state.todoItems.filter(item => !item.isCompleted).map(item =>*/}
+                                {/*<div key={item.id} style={{ margin: 10 }}>*/}
+                                    {/*<span>{item.category}/</span>*/}
+                                    {/*<span style={{ marginRight: 5 }}>{item.id + 1}. {item.title}</span>*/}
+                                    {/*<button*/}
+                                        {/*className='btn btn-success btn-sm'*/}
+                                        {/*onClick={() => this._handleOnClickToggleState(item.id)}*/}
+                                    {/*>*/}
+                                        {/*완료*/}
+                                    {/*</button>*/}
+                                    {/*{renderCancelButton(item)}*/}
+                                {/*</div>*/}
+                            {/*)*/}
+                        {/*}*/}
+                    {/*</div>*/}
 
-                    <div className='col-6'>
-                        <h3>완료한 일</h3>
-                        {this.state.todoItems.filter(item => item.isCompleted).map(item =>
-                            <div key={item.id} style={{margin: 10}}>
-                                <span style={{marginRight: 5}}>{item.id + 1}. {item.title}</span>
-                                <button className='btn btn-warning btn-sm'
-                                        onClick={() => this._handleOnClickToggleState(item.id)}>
-                                    취소
-                                </button>
-                                {renderCancelButton(item)}
-                            </div>
-                        )}
-                    </div>
+                    {/*<div className='col-6'>*/}
+                        {/*<h3>완료한 일</h3>*/}
+                        {/*{this.state.todoItems.filter(item => item.isCompleted).map(item =>*/}
+                            {/*<div key={item.id} style={{margin: 10}}>*/}
+                                {/*<span style={{marginRight: 5}}>{item.id + 1}. {item.title}</span>*/}
+                                {/*<button className='btn btn-warning btn-sm'*/}
+                                        {/*onClick={() => this._handleOnClickToggleState(item.id)}>*/}
+                                    {/*취소*/}
+                                {/*</button>*/}
+                                {/*{renderCancelButton(item)}*/}
+                            {/*</div>*/}
+                        {/*)}*/}
+                    {/*</div>*/}
 
-                    <div className="col-6">
-                        <button onClick={() => this._handleOnClickFilterTodoItems('업무')}>전부</button>
-                        <button onClick={() => this._handleOnClickFilterTodoItems('업무')}>업무</button>
-                        <button onClick={() => this._handleOnClickFilterTodoItems('운동')}>운동</button>
-                        <button onClick={() => this._handleOnClickFilterTodoItems('교우')}>교우</button>
-                    </div>
+                    {/*<div className="col-6">*/}
+                        {/*<button onClick={() => this._handleOnClickFilterTodoItems('업무')}>전부</button>*/}
+                        {/*<button onClick={() => this._handleOnClickFilterTodoItems('업무')}>업무</button>*/}
+                        {/*<button onClick={() => this._handleOnClickFilterTodoItems('운동')}>운동</button>*/}
+                        {/*<button onClick={() => this._handleOnClickFilterTodoItems('교우')}>교우</button>*/}
+                    {/*</div>*/}
                 </div>
 
             </div>
         </div>
-      </div>
     );
   }
 }
