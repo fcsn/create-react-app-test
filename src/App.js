@@ -64,11 +64,12 @@ class App extends Component {
     }
 
     _handleOnClickToggleState (index) {
+        console.log(index)
         const { todoItems } = this.state
         // const newTodoItems = todoItems.slice(0)
         // ??
         const newTodoItems = todoItems
-        newTodoItems[index].isCompleted = !todoItems[index].isCompleted
+        newTodoItems[index].isCompleted = !newTodoItems[index].isCompleted
         this.setState({ todoItems: newTodoItems })
     }
 
@@ -85,6 +86,7 @@ class App extends Component {
                item.title.indexOf(retrieveInput) !== -1
        })
        console.log(searchedTodoItems)
+       this.setState({retrieveInput: ''})
     }
 
     _handleOnClickFilterTodoItems (categ) {
@@ -109,11 +111,13 @@ class App extends Component {
     //     </button>
     // )
     return (
+
       <div className="container" style={{ maxWidth: 600, padding: '20px, 0' }}>
         <div className='row' style={{padding: '3rem 1.5rem'}}>
+            {/*{JSON.stringify(this.state.todoItems)}*/}
 
 
-            <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+            <Dropdown className="" isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                 <DropdownToggle caret>
                     {this.state.category}
                 </DropdownToggle>
@@ -129,84 +133,50 @@ class App extends Component {
             </Dropdown>
 
 
+                <div className='col text-center'>
+                    <div className='input-group'>
+                        <input type="text"
+                               className='form-control'
+                               value={this.state.todoInput}
+                               onChange={this._handleOnChangeTodoInput}
+                               onKeyDown={e => e.keyCode === 13 ? this._handleOnClickAddItem() : null}/>
+                        <div className='input-group-append'>
+                            <button className='btn btn-outline-secondary'
+                                    onClick={this._handleOnClickAddItem}>
+                                등록
+                            </button>
+                        </div>
+                    </div>
 
-            <div className='col text-center'>
-                <TodoTable todoItems={ this.state.todoItems }
-                           _handleOnClickToggleState={ this._handleOnClickToggleState}
-                           _handleOnClickRemove={ this._handleOnClickRemove}
-                           _handleOnClickFilterTodoItems={ this._handleOnClickFilterTodoItems}/>
-                <div className='input-group'>
-                    <input type="text"
-                           className='form-control'
-                           value={this.state.todoInput}
-                           onChange={this._handleOnChangeTodoInput}
-                           onKeyDown={e => e.keyCode === 13 ? this._handleOnClickAddItem() : null}/>
-                    <div className='input-group-append'>
-                        <button className='btn btn-outline-secondary'
-                                onClick={this._handleOnClickAddItem}>
-                            등록
-                        </button>
+                    <div className='input-group' style={ { marginTop: 20 }}>
+                        <input type="text"
+                               className='form-control'
+                               value={this.state.retrieveInput}
+                               onChange={this._handleOnChangeInputRetrieve}
+                               onKeyDown={e => e.keyCode === 13 ? this._handleOnChangeRetrieveTodo() : null}/>
+                        <div className='input-group-append'>
+                            <button className='btn btn-outline-secondary'
+                                    onClick={this._handleOnChangeRetrieveTodo}>
+                                검색
+                            </button>
+                        </div>
+                </div>
+
+                </div>
+
+                <div className="container" style={{ maxWidth: 600, padding: '20px, 0' }}>
+                    <div className='row' style={{padding: '3rem 1.5rem'}}>
+                        <div className='col'>
+                            <TodoTable todoItems={ this.state.todoItems }
+                                       _handleOnClickToggleState={ this._handleOnClickToggleState}
+                                       _handleOnClickRemove={ this._handleOnClickRemove}
+                                       _handleOnClickFilterTodoItems={ this._handleOnClickFilterTodoItems}/>
+                        </div>
                     </div>
                 </div>
 
-                <div className='input-group' style={ { marginTop: 20 }}>
-                    <input type="text"
-                           className='form-control'
-                           value={this.state.retrieveInput}
-                           onChange={this._handleOnChangeInputRetrieve}
-                           onKeyDown={e => e.keyCode === 13 ? this._handleOnChangeRetrieveTodo() : null}/>
-                    <div className='input-group-append'>
-                        <button className='btn btn-outline-secondary'
-                                onClick={this._handleOnChangeRetrieveTodo}>
-                            검색
-                        </button>
-                    </div>
-                </div>
-
-                {/*<div className='row' style={ { marginTop: 20 } }>*/}
-                    {/*<div className='col-6'>*/}
-                        {/*<h3>해야할 일</h3>*/}
-                        {/*{*/}
-                            {/*this.state.todoItems.filter(item => !item.isCompleted).map(item =>*/}
-                                {/*<div key={item.id} style={{ margin: 10 }}>*/}
-                                    {/*<span>{item.category}/</span>*/}
-                                    {/*<span style={{ marginRight: 5 }}>{item.id + 1}. {item.title}</span>*/}
-                                    {/*<button*/}
-                                        {/*className='btn btn-success btn-sm'*/}
-                                        {/*onClick={() => this._handleOnClickToggleState(item.id)}*/}
-                                    {/*>*/}
-                                        {/*완료*/}
-                                    {/*</button>*/}
-                                    {/*{renderCancelButton(item)}*/}
-                                {/*</div>*/}
-                            {/*)*/}
-                        {/*}*/}
-                    {/*</div>*/}
-
-                    {/*<div className='col-6'>*/}
-                        {/*<h3>완료한 일</h3>*/}
-                        {/*{this.state.todoItems.filter(item => item.isCompleted).map(item =>*/}
-                            {/*<div key={item.id} style={{margin: 10}}>*/}
-                                {/*<span style={{marginRight: 5}}>{item.id + 1}. {item.title}</span>*/}
-                                {/*<button className='btn btn-warning btn-sm'*/}
-                                        {/*onClick={() => this._handleOnClickToggleState(item.id)}>*/}
-                                    {/*취소*/}
-                                {/*</button>*/}
-                                {/*{renderCancelButton(item)}*/}
-                            {/*</div>*/}
-                        {/*)}*/}
-                    {/*</div>*/}
-
-                    {/*<div className="col-6">*/}
-                        {/*<button onClick={() => this._handleOnClickFilterTodoItems('업무')}>전부</button>*/}
-                        {/*<button onClick={() => this._handleOnClickFilterTodoItems('업무')}>업무</button>*/}
-                        {/*<button onClick={() => this._handleOnClickFilterTodoItems('운동')}>운동</button>*/}
-                        {/*<button onClick={() => this._handleOnClickFilterTodoItems('교우')}>교우</button>*/}
-                    {/*</div>*/}
-                </div>
-
-            </div>
         </div>
+      </div>
     );
   }
 }

@@ -18,19 +18,12 @@ class TodoTable extends Component {
     // }
 
     componentDidUpdate (prevProps, prevState) {
-        console.log(`prevProps: ${prevProps}`)
-        console.dir(prevProps)
-        console.log(`prevState: ${prevState}`)
+        // console.log(`prevProps: ${prevProps}`)
+        // console.dir(prevProps)
+        // console.log(`prevState: ${prevState}`)
     }
 
     render () {
-        // const renderCancelButton = item => (
-        //     <button className="btn btn-danger btn-sm"
-        //             style={{marginLeft: 5}}
-        //             onClick={() => this.props._handleOnClickRemove(item.id)}>
-        //     삭제
-        //     </button>
-        // )
         // const renderUpdateButton = item => (
         //     <button className="btn btn-danger btn-sm"
         //             style={{marginLeft: 5}}
@@ -39,11 +32,15 @@ class TodoTable extends Component {
         //     </button>
         // )
         const { todoItems } = this.props
-        const completedList = todoItems.filter(item => !item.isCompleted).map(
-            item => <TodoUnit key={item.id} item={item}/>
+        const completedList = todoItems.map(
+            item => <TodoUnit key={item.id}
+                              item={item}
+                              _handleOnClickToggleState={this.props._handleOnClickToggleState}
+                              _handleOnClickRemove={this.props._handleOnClickRemove}/>
         )
         return (
-            <div>
+            <div className="col-6">
+                <h3>해야할 일</h3>
                 {completedList}
             </div>
         )
