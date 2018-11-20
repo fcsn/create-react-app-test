@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import TodoUnit from '../../../src/components/TodoUnit/TodoUnit'
 
 class TodoTable extends Component {
     static defaultProps = {
@@ -8,73 +9,43 @@ class TodoTable extends Component {
         _handleOnClickFilterTodoItems: () => { console.warn(`not defined.`)}
     }
 
-    // _handleOnClickToggleState (index) {
-    //     const { todoItems } = this.props
-    //     // const newTodoItems = todoItems.slice(0)
-    //     // ??
-    //     const newTodoItems = todoItems
-    //     newTodoItems[index].isCompleted = !todoItems[index].isCompleted
-    //     this.setState({ todoItems: newTodoItems })
+    constructor (props) {
+        super(props)
+        // this._handleOnClickUpdate = this._handleOnClickUpdate.bind(this)
+    }
+    // _handleOnClickUpdate (item) {
+    //     const {todoItems} = this.props
     // }
 
-    render () {
-        //     // JSON.stringify(this.props.todoItems)
-        //     <div>
-        //         {this.props.todoItems.filter(item => !item.isCompleted).map(item =>
-        //         <div key={item.id}>{item.id +1}. {item.title}</div>
-        //         )}
-        //     </div>
-        // )
-        // const { todoItems, _handleOnClickRemove } = this.props
+    componentDidUpdate (prevProps, prevState) {
+        console.log(`prevProps: ${prevProps}`)
+        console.dir(prevProps)
+        console.log(`prevState: ${prevState}`)
+    }
 
-        const renderCancelButton = item => (
-            <button className="btn btn-danger btn-sm"
-                    style={{marginLeft: 5}}
-                    onClick={() => this.props._handleOnClickRemove(item.id)}>
-            삭제
-            </button>
+    render () {
+        // const renderCancelButton = item => (
+        //     <button className="btn btn-danger btn-sm"
+        //             style={{marginLeft: 5}}
+        //             onClick={() => this.props._handleOnClickRemove(item.id)}>
+        //     삭제
+        //     </button>
+        // )
+        // const renderUpdateButton = item => (
+        //     <button className="btn btn-danger btn-sm"
+        //             style={{marginLeft: 5}}
+        //             onClick={() => this._handleOnClickUpdate(item)}>
+        //         수정
+        //     </button>
+        // )
+        const { todoItems } = this.props
+        const completedList = todoItems.filter(item => !item.isCompleted).map(
+            item => <TodoUnit key={item.id} item={item}/>
         )
         return (
-        <React.Fragment>
-            <div className='col-6'>
-                <h3>해야할 일</h3>
-                {this.props.todoItems.filter(item => !item.isCompleted).map(item =>
-                        <div key={item.id} style={{ margin: 10 }}>
-                            {/*<span>{item.category}/</span>*/}
-                            <span style={{ marginRight: 5 }}>{item.id + 1}. {item.title}</span>
-                            <button
-                                className='btn btn-success btn-sm'
-                                onClick={() => this.props._handleOnClickToggleState(item.id)}
-                            >
-                                완료
-                            </button>
-                            {renderCancelButton(item)}
-                        </div>
-                    )
-                }
+            <div>
+                {completedList}
             </div>
-
-            <div className='col-6'>
-            <h3>완료한 일</h3>
-                {this.props.todoItems.filter(item => item.isCompleted).map(item =>
-                    <div key={item.id} style={{margin: 10}}>
-                        <span style={{marginRight: 5}}>{item.id + 1}. {item.title}</span>
-                        <button className='btn btn-warning btn-sm'
-                                onClick={() => this.props._handleOnClickToggleState(item.id)}>
-                            취소
-                        </button>
-                        {renderCancelButton(item)}
-                    </div>
-                )}
-            </div>
-
-            <div className="col-6">
-                <button onClick={() => this.props._handleOnClickFilterTodoItems('업무')}>전부</button>
-                <button onClick={() => this.props._handleOnClickFilterTodoItems('업무')}>업무</button>
-                <button onClick={() => this.props._handleOnClickFilterTodoItems('운동')}>운동</button>
-                <button onClick={() => this.props._handleOnClickFilterTodoItems('교우')}>교우</button>
-            </div>
-    </React.Fragment>
         )
     }
 }
