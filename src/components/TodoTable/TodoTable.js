@@ -32,21 +32,24 @@ class TodoTable extends Component {
         //     </button>
         // )
         const { todoItems } = this.props
-        const completedList = todoItems.map(
+        const todoList = todoItems.map(
             item => <TodoUnit key={item.id}
                               item={item}
                               _handleOnClickToggleState={this.props._handleOnClickToggleState}
-                              _handleOnClickRemove={this.props._handleOnClickRemove}/>
+                              _handleOnClickRemove={this.props._handleOnClickRemove}
+                              isCompletedList={this.props.isCompletedList}/>
         )
         return (
-            <div className="">
-                <h3 className="pb-3 mb-4 border-bottom" style={{textAlign: 'center'}}>해야할 일</h3>
-                <nav className="blog-pagination" style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                    <button className="btn btn-outline-primary">업무</button>
-                    <button className="btn btn-outline-danger" style={{marginLeft: 5}}>운동</button>
-                    <button className="btn btn-outline-info" style={{marginLeft: 5}}>교우</button>
-                </nav>
-                {completedList}
+            <div>
+                <div className="">
+                    <h3 className="pb-3 mb-4 border-bottom" style={{textAlign: 'center'}}>{this.props.isCompletedList ? '해야할 일' : '끝난 일' }</h3>
+                    <nav className="blog-pagination" style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                        <button className="btn btn-outline-primary">업무</button>
+                        <button className="btn btn-outline-danger" style={{marginLeft: 5}}>운동</button>
+                        <button className="btn btn-outline-info" style={{marginLeft: 5}}>교우</button>
+                    </nav>
+                    {todoList}
+                </div>
             </div>
         )
     }
