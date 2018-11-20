@@ -39,8 +39,13 @@ class TodoTable extends Component {
                               _handleOnClickRemove={this.props._handleOnClickRemove}/>
         )
         return (
-            <div className="col-6">
-                <h3>해야할 일</h3>
+            <div className="">
+                <h3 className="pb-3 mb-4 border-bottom" style={{textAlign: 'center'}}>해야할 일</h3>
+                <nav className="blog-pagination" style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                    <button className="btn btn-outline-primary">업무</button>
+                    <button className="btn btn-outline-danger" style={{marginLeft: 5}}>운동</button>
+                    <button className="btn btn-outline-info" style={{marginLeft: 5}}>교우</button>
+                </nav>
                 {completedList}
             </div>
         )

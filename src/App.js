@@ -111,72 +111,90 @@ class App extends Component {
     //     </button>
     // )
     return (
-
-      <div className="container" style={{ maxWidth: 600, padding: '20px, 0' }}>
-        <div className='row' style={{padding: '3rem 1.5rem'}}>
-            {/*{JSON.stringify(this.state.todoItems)}*/}
-
-
-            <Dropdown className="" isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                <DropdownToggle caret>
-                    {this.state.category}
-                </DropdownToggle>
-                <DropdownMenu>
-                    {/*<DropdownItem header>Header</DropdownItem>*/}
-                    <DropdownItem disabled>할 일 카테고리</DropdownItem>
-                    <DropdownItem onClick={() => this._handleOnClickChangeCategory('업무')}>업무</DropdownItem>
-                    <DropdownItem onClick={() => this._handleOnClickChangeCategory('운동')}>운동</DropdownItem>
-                    <DropdownItem onClick={() => this._handleOnClickChangeCategory('교우')}>교우</DropdownItem>
-                    {/*<DropdownItem divider />*/}
-                    {/*<DropdownItem>Another Action</DropdownItem>*/}
-                </DropdownMenu>
-            </Dropdown>
-
-
-                <div className='col text-center'>
-                    <div className='input-group'>
-                        <input type="text"
-                               className='form-control'
-                               value={this.state.todoInput}
-                               onChange={this._handleOnChangeTodoInput}
-                               onKeyDown={e => e.keyCode === 13 ? this._handleOnClickAddItem() : null}/>
-                        <div className='input-group-append'>
-                            <button className='btn btn-outline-secondary'
-                                    onClick={this._handleOnClickAddItem}>
-                                등록
-                            </button>
-                        </div>
-                    </div>
-
-                    <div className='input-group' style={ { marginTop: 20 }}>
-                        <input type="text"
-                               className='form-control'
-                               value={this.state.retrieveInput}
-                               onChange={this._handleOnChangeInputRetrieve}
-                               onKeyDown={e => e.keyCode === 13 ? this._handleOnChangeRetrieveTodo() : null}/>
-                        <div className='input-group-append'>
-                            <button className='btn btn-outline-secondary'
-                                    onClick={this._handleOnChangeRetrieveTodo}>
-                                검색
-                            </button>
-                        </div>
-                </div>
-
-                </div>
-
-                <div className="container" style={{ maxWidth: 600, padding: '20px, 0' }}>
-                    <div className='row' style={{padding: '3rem 1.5rem'}}>
-                        <div className='col'>
-                            <TodoTable todoItems={ this.state.todoItems }
-                                       _handleOnClickToggleState={ this._handleOnClickToggleState}
-                                       _handleOnClickRemove={ this._handleOnClickRemove}
-                                       _handleOnClickFilterTodoItems={ this._handleOnClickFilterTodoItems}/>
-                        </div>
-                    </div>
-                </div>
-
+        <div>
+        <div className="container" style={{ maxWidth: 600, padding: '20px, 0' }}>
+            <div className='row' style={{padding: '3rem 1.5rem .5rem 1.5rem'}}>
+                <div className="col" style={{textAlign: 'center', color: '#6c757d', fontSize: 50, fontWeight: 'Lighter'}}>Todo App</div>
+            </div>
         </div>
-      </div>
+
+          <div className="container" style={{ maxWidth: 600, padding: '20px, 0' }}>
+            <div className='row' style={{padding: '.5rem 1.5rem .5rem 1.5rem'}}>
+                {/*{JSON.stringify(this.state.todoItems)}*/}
+
+
+                <Dropdown className="" isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+                    <DropdownToggle caret>
+                        {this.state.category}
+                    </DropdownToggle>
+                    <DropdownMenu>
+                        {/*<DropdownItem header>Header</DropdownItem>*/}
+                        <DropdownItem disabled>할 일 카테고리</DropdownItem>
+                        <DropdownItem onClick={() => this._handleOnClickChangeCategory('업무')}>업무</DropdownItem>
+                        <DropdownItem onClick={() => this._handleOnClickChangeCategory('운동')}>운동</DropdownItem>
+                        <DropdownItem onClick={() => this._handleOnClickChangeCategory('교우')}>교우</DropdownItem>
+                        {/*<DropdownItem divider />*/}
+                        {/*<DropdownItem>Another Action</DropdownItem>*/}
+                    </DropdownMenu>
+                </Dropdown>
+
+
+                    <div className='col text-center'>
+                        <div className='input-group'>
+                            <input type="text"
+                                   className='form-control'
+                                   value={this.state.todoInput}
+                                   onChange={this._handleOnChangeTodoInput}
+                                   onKeyDown={e => e.keyCode === 13 ? this._handleOnClickAddItem() : null}/>
+                            <div className='input-group-append'>
+                                <button className='btn btn-outline-secondary'
+                                        onClick={this._handleOnClickAddItem}>
+                                    등록
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className='input-group' style={ { marginTop: 20 }}>
+                            <input type="text"
+                                   className='form-control'
+                                   value={this.state.retrieveInput}
+                                   onChange={this._handleOnChangeInputRetrieve}
+                                   onKeyDown={e => e.keyCode === 13 ? this._handleOnChangeRetrieveTodo() : null}/>
+                            <div className='input-group-append'>
+                                <button className='btn btn-outline-secondary'
+                                        onClick={this._handleOnChangeRetrieveTodo}>
+                                    검색
+                                </button>
+                            </div>
+                    </div>
+
+                    </div>
+
+
+
+            </div>
+          </div>
+
+
+          {/*Todo Table*/}
+          <div className="container" style={{ maxWidth: 600, padding: '20px, 0' }}>
+              <div className='row' style={{padding: '3rem 1.5rem'}}>
+                  <div className='col'>
+                          <TodoTable todoItems={ this.state.todoItems }
+                      _handleOnClickToggleState={ this._handleOnClickToggleState}
+                      _handleOnClickRemove={ this._handleOnClickRemove}
+                      _handleOnClickFilterTodoItems={ this._handleOnClickFilterTodoItems}/>
+                  </div>
+                  <div className='col'>
+                          <TodoTable todoItems={ this.state.todoItems }
+                      _handleOnClickToggleState={ this._handleOnClickToggleState}
+                      _handleOnClickRemove={ this._handleOnClickRemove}
+                      _handleOnClickFilterTodoItems={ this._handleOnClickFilterTodoItems}/>
+                  </div>
+              </div>
+            </div>
+
+    </div>
     );
   }
 }

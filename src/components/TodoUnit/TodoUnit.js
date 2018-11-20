@@ -23,7 +23,7 @@ class TodoUnit extends Component {
                 <Fade in={this.state.fadeIn} tag="h5" className="mt-3">
                     <div style={{margin: 10}} className="card flex-md-row mb-4 shadow-sm h-md-250">
                         <div className="card-body d-flex flex-column align-items-start">
-                        <strong className="d-inline-block mb-2 text-success">{item.category}</strong>
+                        <strong className="d-inline-block mb-2 text-primary" style={{fontSize: 16}}>{item.category}</strong>
                         <h3 className="mb-0 text-dark">{item.title}</h3>
                         {/*<span style={{ marginRight: 5}}>{String(item.isCompleted)}</span>*/}
                         {/*<button className="btn btn-success btn-sm"*/}
