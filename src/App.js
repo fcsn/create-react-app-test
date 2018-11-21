@@ -65,12 +65,9 @@ class App extends Component {
     }
 
     _handleOnClickToggleState (index) {
-        console.log(index)
         const { todoItems } = this.state
-        // const newTodoItems = todoItems.slice(0)
-        // ??
         const newTodoItems = todoItems
-        newTodoItems[index].isCompleted = !newTodoItems[index].isCompleted
+        newTodoItems.filter(item => item.id === index)[0].isCompleted = !newTodoItems.filter(item => item.id === index)[0].isCompleted
         this.setState({ todoItems: newTodoItems })
     }
 

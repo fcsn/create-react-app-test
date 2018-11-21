@@ -27,7 +27,7 @@ class TodoUnit extends Component {
                 <Fade in={this.state.fadeIn} tag="h5" className="mt-3">
                     <div style={{margin: 10}} className="card flex-md-row mb-4 shadow-sm h-md-250">
                         <div className="card-body d-flex flex-column align-items-start">
-                        <strong className="d-inline-block mb-2" style={categoryStyle}>{item.category}</strong>
+                        <strong className="d-inline-block mb-2" style={categoryStyle}>{item.id}. {item.category}</strong>
                         <h3 className="mb-0 text-dark" style={{fontWeight: 'lighter'}}>{item.title}</h3>
                             <div className="btn-group mt-2" role="group" aria-label="Basic example" style={{paddingTop: '1rem'}}>
                                 <button type="button" className="btn btn-sm btn-outline-secondary"
