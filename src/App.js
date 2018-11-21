@@ -14,11 +14,12 @@ class App extends Component {
 
       this.state = {
           todoItems: [],
-          todoInput: '',
+          title: '',
           retrieveInput: '',
           category: '업무',
           dropdownOpen: false,
-          isCompletedList: true
+          isCompletedList: true,
+          categoryTab: 'ALL'
       }
 
       this._handleOnClickAddItem = this._handleOnClickAddItem.bind(this)
@@ -31,6 +32,7 @@ class App extends Component {
 
       this._handleOnChangeInputRetrieve = this._handleOnChangeInputRetrieve.bind(this)
       this._handleOnChangeRetrieveTodo = this._handleOnChangeRetrieveTodo.bind(this)
+      this._handleTodoTitleUpdate = this._handleTodoTitleUpdate.bind(this)
   }
     toggle() {
         this.setState(prevState => ({
@@ -39,11 +41,11 @@ class App extends Component {
     }
 
     _handleOnClickAddItem () {
-      const {todoItems, todoInput, category} = this.state
-      if (todoInput.length === 0) return alert('뭐함')
+      const {todoItems, title, category} = this.state
+      if (title.length === 0) return alert('뭐함')
       const todoItem = {
         id: todoId++,
-        title: todoInput,
+        title: title,
         isCompleted: false,
         category: category
       }
@@ -51,11 +53,12 @@ class App extends Component {
       // ??
       const newTodoItems = todoItems
       newTodoItems.push(todoItem)
-      this.setState({ todoItems: newTodoItems, todoInput: '' })
+      this.setState({ todoItems: newTodoItems, title: '' })
     }
 
     _handleOnChangeTodoInput (e) {
-      this.setState({ todoInput: e.target.value })
+      // todo todoInput을 title로 바꾸고 computed property name 써보기 -> 그다음엔 todoUnit에 있는 onchange 함수 없애고 본 함수 재활용
+      this.setState({ title: e.target.value })
     }
 
     _handleOnClickRemove (id) {
@@ -100,14 +103,12 @@ class App extends Component {
         }
     }
 
+    _handleTodoTitleUpdate (id, data) {
+      const {todoItems} = this.state
+      this.setState({todoItems: todoItems.map(item => item.id === id ? {...item, ...data} : item)})
+    }
+
   render () {
-    // const renderCancelButton = item => (
-    //     <button className='btn btn-danger btn-sm'
-    //             style={{marginLeft: 5}}
-    //             onClick={() => this._handleOnClickRemove(item.id)}>
-    //         삭제
-    //     </button>
-    // )
     return (
         <div>
             {/*title*/}
@@ -139,8 +140,9 @@ class App extends Component {
                             <div className='input-group'>
                                 <input type="text"
                                        className='form-control'
-                                       value={this.state.todoInput}
+                                       value={this.state.title}
                                        onChange={this._handleOnChangeTodoInput}
+                                       name="title"
                                        onKeyDown={e => e.keyCode === 13 ? this._handleOnClickAddItem() : null}/>
                                 <div className='input-group-append'>
                                     <button className='btn btn-outline-secondary'
@@ -180,14 +182,16 @@ class App extends Component {
                                          todoItems={ this.state.todoItems.filter(item => !item.isCompleted) }
                                          _handleOnClickToggleState={ this._handleOnClickToggleState}
                                          _handleOnClickRemove={ this._handleOnClickRemove}
-                                         _handleOnClickFilterTodoItems={ this._handleOnClickFilterTodoItems}/>
+                                         _handleOnClickFilterTodoItems={ this._handleOnClickFilterTodoItems}
+                                         _handleTodoTitleUpdate={ this._handleTodoTitleUpdate}/>
                       </div>
                       <div className='col'>
                               <TodoTable isUncompletedList={this.state.isCompletedList}
                                          todoItems={ this.state.todoItems.filter(item => item.isCompleted) }
                                          _handleOnClickToggleState={ this._handleOnClickToggleState}
                                          _handleOnClickRemove={ this._handleOnClickRemove}
-                                         _handleOnClickFilterTodoItems={ this._handleOnClickFilterTodoItems}/>
+                                         _handleOnClickFilterTodoItems={ this._handleOnClickFilterTodoItems}
+                                         _handleTodoTitleUpdate={ this._handleTodoTitleUpdate}/>
                       </div>
                   </div>
             </div>
