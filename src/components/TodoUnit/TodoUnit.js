@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import './TodoUnit.css'
 import { Fade } from 'reactstrap';
 
 
@@ -13,6 +14,7 @@ class TodoUnit extends Component {
         }
         this._handleOnClickToggleIsEdit = this._handleOnClickToggleIsEdit.bind(this)
         this._handleOnChange = this._handleOnChange.bind(this)
+        this._handleOnClickUpdateCategory = this._handleOnClickUpdateCategory.bind(this)
     }
 
     _handleOnClickToggleIsEdit () {
@@ -20,25 +22,33 @@ class TodoUnit extends Component {
         this.setState({isEdit: !isEdit})
     }
 
+    _handleOnClickUpdateCategory (category) {
+        const {isEdit} = this.state
+        this.setState({isEdit: !isEdit})
+    }
+
     _handleOnChange (e) {
-        // console.log(e.target.value)
         const {name, value} = e.target
+        // todo 수정 시 e.target.value.length가 0이면 수정 안되게 변경
         this.setState({[name]: value})
     }
 
     componentDidUpdate (prevProps, prevState) {
         const { item, _handleTodoTitleUpdate } = this.props
         if (!prevState.isEdit && this.state.isEdit) {
+            // isEdit가 false에서 true로 update되면
             this.setState({title: item.title, category: item.category})
         }
 
         if (prevState.isEdit && !this.state.isEdit) {
+            // isEdit가 true에서 false로 update되면
             _handleTodoTitleUpdate(item.id, {title: this.state.title, category: this.state.category})
         }
     }
 
     render () {
-        const {item, _handleOnClickToggleState, _handleTodoTitleUpdate} = this.props
+        // console.log('render TodoUnit')
+        const {item, _handleOnClickToggleState} = this.props
         // 삭제 button
         const renderCancelButton = item => (
             <button type="button"
@@ -47,15 +57,6 @@ class TodoUnit extends Component {
                 삭제
             </button>
         )
-        // 수정 Button
-        const renderUpdateButton = item => (
-            <button className="btn btn-danger btn-sm"
-                    style={{marginLeft: 5}}
-                    onClick={() => this._handleTodoTitleUpdate(item)}>
-                수정
-            </button>
-        )
-
         if (item) {
             const categoryStyle = {
                 fontSize: 16,
@@ -66,16 +67,27 @@ class TodoUnit extends Component {
                     <div style={{margin: 10}} className="card flex-md-row mb-4 shadow-sm h-md-250">
                         <div className="card-body d-flex flex-column align-items-start">
 
-                            <strong className="d-inline-block mb-2" style={categoryStyle}>{item.category}</strong>
+                            {this.state.isEdit ?
+                                <div>
+                                    <button onClick={() => this._handleOnClickUpdateCategory('업무')} className="btn is-small btn-sm btn-outline-primary" value="업무">업무</button>
+                                    <button onClick={() => this._handleOnClickUpdateCategory('운동')} className="btn btn-sm btn-outline-danger" style={{marginLeft: 5}} value="업무">운동</button>
+                                    <button onClick={() => this._handleOnClickUpdateCategory('교우')} className="btn btn-sm btn-outline-info" style={{marginLeft: 5}} value="업무">교우</button>
+                                </div>
+                             : <strong className="d-inline-block mb-2" style={categoryStyle}
+                                       onClick={this._handleOnClickToggleIsEdit}>
+                                    {item.id + 1}. {item.category}
+                               </strong>
+                            }
 
                             {this.state.isEdit ?
-                             <input type="text"
+                             <input style={{fontWeight: 'lighter', color: '#282c34', marginTop: 5}}
+                                    type="text"
                                     value={this.state.title}
                                     onChange={this._handleOnChange}
                                     name="title"
                                     onKeyDown={e => e.keyCode === 13 ? this._handleOnClickToggleIsEdit() : null}/>
-                             : <h3 className="mb-0 text-dark"
-                                   style={{fontWeight: 'lighter'}}
+                             : <h3 style={{fontWeight: 'lighter', color: '#343a40'}}
+                                   className="mb-0 title"
                                    onClick={this._handleOnClickToggleIsEdit}>{item.title}</h3>
                             }
 

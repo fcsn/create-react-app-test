@@ -19,7 +19,9 @@ class App extends Component {
           category: '업무',
           dropdownOpen: false,
           isCompletedList: true,
-          categoryTab: 'ALL'
+          categoryTab: 'ALL',
+          retrievedItems: [],
+          isRetrieved: false
       }
 
       this._handleOnClickAddItem = this._handleOnClickAddItem.bind(this)
@@ -42,17 +44,15 @@ class App extends Component {
 
     _handleOnClickAddItem () {
       const {todoItems, title, category} = this.state
-      if (title.length === 0) return alert('뭐함')
+      if (title.length === 0) return alert('빈칸 ㄴㄴ')
       const todoItem = {
         id: todoId++,
         title: title,
         isCompleted: false,
         category: category
       }
-      // const newTodoItems = todoItems.slice(0)
-      // ??
-      const newTodoItems = todoItems
-      newTodoItems.push(todoItem)
+      const newTodoItems = [...todoItems, todoItem]
+      // newTodoItems.push(todoItem)
       this.setState({ todoItems: newTodoItems, title: '' })
     }
 
@@ -78,16 +78,24 @@ class App extends Component {
       this.setState({ retrieveInput: e.target.value })
     }
 
+    // _handleOnChangeRetrieveTodo () {
+    //    const { todoItems, retrieveInput } = this.state
+    //    let searchedTodoItems = todoItems.filter((item, index) => {
+    //        return item.title.toLowerCase().indexOf(retrieveInput.toLowerCase()) !== -1 ||
+    //            item.title.indexOf(retrieveInput) !== -1
+    //    })
+    //    console.log(searchedTodoItems)
+    //    this.setState({retrieveInput: ''})
+    // }
+
     _handleOnChangeRetrieveTodo () {
        const { todoItems, retrieveInput } = this.state
-       // console.log(todoItems)
-       // todoItems
-       let searchedTodoItems = todoItems.filter((item, index) => {
+       let searchedTodoItems = todoItems.filter((item) => {
            return item.title.toLowerCase().indexOf(retrieveInput.toLowerCase()) !== -1 ||
                item.title.indexOf(retrieveInput) !== -1
        })
        console.log(searchedTodoItems)
-       this.setState({retrieveInput: ''})
+       this.setState({retrieveInput: '', retrievedItems: searchedTodoItems})
     }
 
     _handleOnClickFilterTodoItems (categ) {
@@ -178,6 +186,7 @@ class App extends Component {
             <div className="container" style={{ maxWidth: 600, padding: '20px, 0' }}>
                   <div className='row' style={{padding: '3rem 1.5rem'}}>
                       <div className='col'>
+                              {/*해야할 일 list*/}
                               <TodoTable isCompletedList={this.state.isCompletedList}
                                          todoItems={ this.state.todoItems.filter(item => !item.isCompleted) }
                                          _handleOnClickToggleState={ this._handleOnClickToggleState}
@@ -185,7 +194,9 @@ class App extends Component {
                                          _handleOnClickFilterTodoItems={ this._handleOnClickFilterTodoItems}
                                          _handleTodoTitleUpdate={ this._handleTodoTitleUpdate}/>
                       </div>
+                      {/*todo 끝난 일이 쌓이는 순서가 id 순이 아니라 먼저 완료를 클릭한 순서여야 합니다*/}
                       <div className='col'>
+                              {/*끝난 일 list*/}
                               <TodoTable isUncompletedList={this.state.isCompletedList}
                                          todoItems={ this.state.todoItems.filter(item => item.isCompleted) }
                                          _handleOnClickToggleState={ this._handleOnClickToggleState}

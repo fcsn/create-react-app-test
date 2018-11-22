@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import TodoUnit from '../../../src/components/TodoUnit/TodoUnit'
+import { Fade } from 'reactstrap';
 
 class TodoTable extends Component {
     static defaultProps = {
@@ -10,14 +11,20 @@ class TodoTable extends Component {
         _handleTodoTitleUpdate: () => { console.warn(`not defined.`) }
     }
 
-    componentDidUpdate (prevProps, prevState) {
-        // console.log(`prevProps: ${prevProps}`)
-        // console.dir(prevProps)
-        // console.log(`prevState: ${prevState}`)
+    state = {
+        fadeIn: true
     }
 
+    // shouldComponentUpdate (nextProps, nextState) {
+    //     console.log(nextProps.todoItems === this.props.todoItems)
+    //     // console.log()
+    //     return nextProps.todoItems !== this.props.todoItems // === false // !== true
+    // }
+
     render () {
+        // console.log('render TodoTable')
         const { todoItems } = this.props
+
         const todoList = todoItems.map(
             item => <TodoUnit key={item.id}
                               item={item}
@@ -36,7 +43,17 @@ class TodoTable extends Component {
                         <button className="btn btn-outline-danger" style={{marginLeft: 5}}>운동</button>
                         <button className="btn btn-outline-info" style={{marginLeft: 5}}>교우</button>
                     </nav>
-                    {todoList}
+
+                    {todoItems.length === 0 ?
+                    <Fade in={this.state.fadeIn} tag="h5" className="mt-3">
+                        <div style={{margin: 10}} className="card flex-md-row mb-4 shadow-sm h-md-250">
+                            <div className="card-body d-flex flex-column align-items-start">
+                                <strong className="d-inline-block mb-2" style={{fontWeight: 'lighter'}}>{this.props.isCompletedList ? `할 일이 없습니다.` : '끝난 일이 없습니다.'}</strong>
+                            </div>
+                        </div>
+                    </Fade>
+                    : todoList}
+
                 </div>
             </div>
         )
